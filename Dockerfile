@@ -1,11 +1,11 @@
 # Use Alpine Linux as our base image so that we minimize the overall size our final container, and minimize the surface area of packages that could be out of date.
-FROM alpine:3.14@sha256:e1c082e3d3c45cccac829840a25941e679c25d438cc8412c2fa221cf1a824e6a
+FROM alpine:3.15
 
 LABEL description="Docker container for building static sites with the Hugo static site generator."
-LABEL maintainer="Johannes Mitlmeier <dev.jojomi@yahoo.com>"
+LABEL maintainer="https://hub.docker.com/r/lovechen"
 
 # config
-ENV HUGO_VERSION=0.87.0
+ENV HUGO_VERSION=
 #ENV HUGO_TYPE=
 ENV HUGO_TYPE=_extended
 
@@ -16,9 +16,8 @@ RUN wget -O - https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION
     && mv /tmp/hugo /usr/local/sbin/hugo \
     && rm -rf /tmp/${HUGO_ID}_linux_amd64 \
     && rm -rf /tmp/LICENSE.md \
-    && rm -rf /tmp/README.md
-
-RUN apk add --update git asciidoctor libc6-compat libstdc++ \
+    && rm -rf /tmp/README.md \
+    && apk add --update git asciidoctor libc6-compat libstdc++ \
     && apk upgrade \
     && apk add --no-cache ca-certificates \
     && chmod 0777 /run.sh
